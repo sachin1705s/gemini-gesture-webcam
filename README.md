@@ -12,7 +12,7 @@ Local webcam gesture/action recognition using Gemini Vision. Includes a live pre
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install google-genai opencv-python
+python -m pip install google-genai opencv-python websockets
 ```
 
 Set your API key:
@@ -27,16 +27,26 @@ export GEMINI_API_KEY="YOUR_API_KEY"
 python gemini_gesture_webcam.py
 ```
 
-## Run (WebSocket feed)
+## Run (WebSocket feed + prompt controller)
 
 ```bash
 python gemini_gesture_stream.py
 ```
 
+A separate **Prompt Controller** window opens to set a system prompt that rewrites gesture labels into Odyssey mid‑stream prompts.
+
 The WebSocket server runs at:
 
 ```
 ws://localhost:8765
+```
+
+## Payload
+
+Each WebSocket message includes both the raw label and the rewritten prompt:
+
+```json
+{"label":"waving hello","rewritten":"The subject is waving a greeting.","latency_ms":312,"ts":1738789999000}
 ```
 
 ## Notes
