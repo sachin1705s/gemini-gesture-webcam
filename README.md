@@ -1,16 +1,12 @@
 # Gemini Gesture Webcam
 
-Live webcam action recognition using Gemini Vision. Left panel shows the live feed, right panel shows the last processed frame with the Gemini label and round‑trip latency.
+Local webcam gesture/action recognition using Gemini Vision. Includes a live preview and a WebSocket broadcaster so other apps can consume the detected action labels.
 
-## Features
-- Open‑ended action recognition (hands, face, body posture)
-- Side‑by‑side view (live vs processed)
-- Latency overlay in milliseconds
-- Adjustable send interval and upload resolution
+## Files
+- `gemini_gesture_webcam.py` – Live webcam + Gemini action label overlay
+- `gemini_gesture_stream.py` – Live webcam + Gemini action label + WebSocket feed (`ws://localhost:8765`)
 
 ## Setup
-
-Create a virtual environment and install dependencies:
 
 ```bash
 python3 -m venv .venv
@@ -25,22 +21,24 @@ Set your API key:
 export GEMINI_API_KEY="YOUR_API_KEY"
 ```
 
-## Run
+## Run (local overlay)
 
 ```bash
 python gemini_gesture_webcam.py
 ```
 
-Press `q` to quit the window.
+## Run (WebSocket feed)
 
-## Configuration
+```bash
+python gemini_gesture_stream.py
+```
 
-Open `gemini_gesture_webcam.py` and adjust:
+The WebSocket server runs at:
 
-- `SEND_INTERVAL` – seconds between requests (default `1.0`)
-- `UPLOAD_LONG_EDGE` – downscale long edge (default `480`)
-- `MODEL` – Gemini model id
+```
+ws://localhost:8765
+```
 
 ## Notes
-- Latency includes upload + model processing + response time.
-- Lower `UPLOAD_LONG_EDGE` to reduce latency and bandwidth.
+- Latency is shown in the overlay (ms).
+- You can tune `SEND_INTERVAL` and `UPLOAD_LONG_EDGE` in the scripts for cost/latency tradeoffs.
